@@ -5,7 +5,10 @@ import {useState} from 'react';
 function App() {
   let post = '강남 우동 맛집';
   let [logo, setLogo] = useState(['React Blog', 'Hamberger Blog', 'Shoes Blog']);
-  let [like, setLike] = useState(0);
+  let [like, setLike] = useState([0,0,0]);
+  let [modal, setModal] = useState(false);
+  let [index, setIndex] = useState(0);
+
   return (
     <div className='App'>
       <div className='black-nav'>
@@ -17,38 +20,50 @@ function App() {
         temp.sort();
         setLogo(temp);
       }}>가나다순 정렬</button>
+      
 
-      <div className='list'>
-        <h4>{ logo[0] }<span onClick={ ()=>{
-          setLike(like + 1);
-          let temp = [...logo];
-          temp[0] = 'React Hi';
-          setLogo(temp);
-        } }>👍</span>{ like }</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className='list'>
-        <h4>{ logo[1] }</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className='list'>
-        <h4>{ logo[2] }</h4>
-        <p>2월 17일 발행</p>
-      </div>
+      {
+        logo.map((content, i)=>{
+          return(
+            <div className='list' key={i}>
+              <h4 onClick={()=>{ 
+                setModal(!modal)
+                setIndex(i)
+                }}> { content }
+              </h4>
+              <h4 style={{display : 'inline'}}>
+                <span onClick={ ()=>{
+                  let temp = [...like]
+                  temp[i]++
+                  setLike(temp)
+                }}>👍</span>{ like[i] }
+              </h4>
+              <p>2월 17일 발행</p>
+            </div>
+          )
+        })
+      }
 
-      <Modal></Modal>
+      {
+        modal ? <Modal logo={logo} index={index} setLogo={setLogo}></Modal> : null
+      }
 
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   return(
     <div className='modal'>
-    <h4>제목</h4>
-    <p>날짜</p>
-    <p>상세내용</p>
-  </div>
+      <h4>{ props.logo[props.index] }</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+      <button onClick={()=>{
+        let temp = [...props.logo]
+        temp[props.index] = "hi"
+        props.setLogo(temp)
+      }}>글 수정</button>
+    </div>
   );
 }
 
