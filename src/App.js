@@ -84,4 +84,21 @@ function Modal(props) {
   );
 }
 
+// class Modal2 extends React.Component {
+//   constructor(props){
+//     super(props);
+//     this.state = {
+//       name : 'kim',
+//       age : 20
+//     }
+//   }
+
+//   render(){
+//     return (
+//       <div>안녕 { this.props.프롭스이름 }</div>
+//     )
+//   }
+
+// }
+
 export default App;
